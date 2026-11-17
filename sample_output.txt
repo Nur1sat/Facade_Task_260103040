@@ -1,0 +1,39 @@
+=== Test 1: Valid Booking ===
+[SeatInventory] Connected to central seat server.
+[SeatInventory] Locked seat 14B for Amina Suleimenova (LOCK-KZ204-14B)
+[BaggageEngine] Calculated baggage fee: $89.00
+[CurrencyConverter] 409.00 USD -> 376.28 EUR
+[PaymentProcessor] Payment gateway initialized.
+[PaymentProcessor] Charged 376.28 EUR | Receipt: TX-871052223
+[TicketIssuer] Issued ETKT-KZ204-871052223 for Amina Suleimenova
+[SeatInventory] Disconnected from seat server.
+Result 1: ETKT-KZ204-871052223
+
+=== Test 2: Blocked Seat ===
+[SeatInventory] Connected to central seat server.
+[Booking] Failed: Seat 13A cannot be locked.
+[SeatInventory] Disconnected from seat server.
+Result 2: BOOKING_FAILED: Seat 13A cannot be locked.
+
+=== Test 3: Payment Failure and Rollback ===
+[SeatInventory] Connected to central seat server.
+[SeatInventory] Locked seat 08C for Timur Bekov (LOCK-KC101-08C)
+[BaggageEngine] Calculated baggage fee: $0.00
+[CurrencyConverter] 320.00 USD -> 155200.00 KZT
+[PaymentProcessor] Payment gateway initialized.
+[SeatInventory] Released lock: LOCK-KC101-08C
+[Booking] Failed: Invalid card number provided.
+[SeatInventory] Disconnected from seat server.
+Result 3: BOOKING_FAILED: Invalid card number provided.
+
+=== Test 4: SILVER Loyalty Booking ===
+[SeatInventory] Connected to central seat server.
+[SeatInventory] Locked seat 18F for Madina Nurgali (LOCK-KZ204-18F)
+[CurrencyConverter] 400.00 USD -> 368.00 EUR
+[PaymentProcessor] Payment gateway initialized.
+[PaymentProcessor] Applied promo code: SILVER-FREE-BAG
+[PaymentProcessor] Promo discount applied. New total: 331.20 EUR
+[PaymentProcessor] Charged 331.20 EUR | Receipt: TX-1852132857
+[TicketIssuer] Issued ETKT-KZ204-1852132857 for Madina Nurgali
+[SeatInventory] Disconnected from seat server.
+Result 4: ETKT-KZ204-1852132857
